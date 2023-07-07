@@ -1,0 +1,28 @@
+body{
+    margin:0;
+    box-sizing: border-box;
+}
+h1,h3{
+    text-align: center;
+    text-transform: uppercase;
+}
+.container-images{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color:lightblue;
+
+}
+.lazy-img{
+   width: calc(100% - 2rem);
+    margin: 1rem 1rem;
+    
+}
+a{
+    text-decoration: none;
+}
+.active{
+    background-color: rgb(49, 7, 128);
+  }

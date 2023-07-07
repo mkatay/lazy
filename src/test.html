@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const generateRandArray = (min, max, length) => {
+            return Array.from({ length: length }, (_) => Math.floor(Math.random() * (max - min)) + min)
+        }
+        console.log(generateRandArray(1, 100, 20));
+    </script>
+</body>
+
+</html>
