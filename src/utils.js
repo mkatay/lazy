@@ -12,3 +12,11 @@ export const getData=async ({queryKey})=>{
     const resp = await axios.get(url)
     return resp.data
 }
+
+export const getFilteredData=async ({queryKey})=>{
+    console.log(queryKey);
+    const url=queryKey[1]
+    const resp = await axios.get(url)
+    //console.log(resp.data.products);
+    return resp.data.products.filter(obj =>obj.id==queryKey[2])
+}

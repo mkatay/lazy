@@ -16,7 +16,9 @@ import { NavLink } from "react-router-dom";
 const pages = [
     {path:'/',name:'Home'}, 
     {path:'/images',name:'Images'},
-    {path:'/contact',name:'Contact'}];
+    {path:'/contact',name:'Contact'},
+    {path:'/products',name:'Products'},
+  ];
 
 export const Navbar=()=> {
   const [anchorElNav, setAnchorElNav] = useState(null);
