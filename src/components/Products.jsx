@@ -28,7 +28,7 @@ export const Products = () => {
       <List>
           { status=='success' && data.products.map(obj => 
            <ListItem disablePadding key={obj.id}>
-            <ListItemButton className='list-btn' onClick={()=>navigate('/products/'+obj.id)}>
+            <ListItemButton className='list-btn' onClick={()=>navigate('/lazy/products/'+obj.id)}>
               <ListItemText primary={obj.name} /> 
             </ListItemButton>
           </ListItem>

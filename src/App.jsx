@@ -11,7 +11,7 @@ import { Products } from "./components/Products";
 import { Product } from "./components/Product";
 import { Faq } from "./components/Faq";
 import {Login} from "./components/Login";
-import {Logout} from "./components/Logout";
+
 
 const queryClient = new QueryClient();
 
@@ -25,13 +25,13 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} loggedInUser={loggedInUser}/>
         <Routes>
-         <Route path="/" element={<Home />}/>
-         <Route path="images" element={<Images />}/>
-         <Route path="products" element={<Products />}/>
-         <Route path="products/:id" element={<Product />}/>
-         <Route path="contact" element={<Contact />}/>
-         <Route path="faq" element={isLoggedIn? <Faq /> : <Login setIsLoggedIn={setIsLoggedIn}/>}/>
-         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} setLoggedInUser={setLoggedInUser}/>}/>
+         <Route path="/lazy" element={<Home />}/>
+         <Route path="/lazy/images" element={<Images />}/>
+         <Route path="/lazy/products" element={<Products />}/>
+         <Route path="/lazy/products/:id" element={<Product />}/>
+         <Route path="/lazy/contact" element={<Contact />}/>
+         <Route path="/lazy/faq" element={isLoggedIn? <Faq /> : <Login setIsLoggedIn={setIsLoggedIn}/>}/>
+         <Route path="/lazy/login" element={<Login setIsLoggedIn={setIsLoggedIn} setLoggedInUser={setLoggedInUser}/>}/>
          {/*<Route path="logout" element={<Logout setIsLoggedIn={setIsLoggedIn}/>}/>*/}
         </Routes>
       </QueryClientProvider>

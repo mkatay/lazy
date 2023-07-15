@@ -25,7 +25,7 @@ export const MediaCard=({imgUrl,name,price})=>{
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={()=>navigate('/products')}>go back to products</Button>
+        <Button size="small" onClick={()=>navigate('/lazy/products/')}>go back to products</Button>
       </CardActions>
     </Card>
   );

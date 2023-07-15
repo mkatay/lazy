@@ -23,7 +23,7 @@ export const Login = ({setIsLoggedIn,setLoggedInUser}) => {
         setIsValidP(true)
          setIsLoggedIn(true)
          setLoggedInUser(username)
-         navigate('/')
+         navigate('/lazy/')
     }else
       setIsValidP(false)
    
