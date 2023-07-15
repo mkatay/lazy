@@ -15,11 +15,11 @@ import { User } from './User';
 import { NavLink } from "react-router-dom";
 
 const pages = [
-    {path:'/lazy',name:'Home'}, 
-    {path:'/lazy/images',name:'Images'},
-    {path:'/lazy/contact',name:'Contact'},
-    {path:'/lazy/products',name:'Products'},
-    {path:'/lazy/faq',name:'Faq'},
+    {path:'/',name:'Home'}, 
+    {path:'/images',name:'Images'},
+    {path:'/contact',name:'Contact'},
+    {path:'/products',name:'Products'},
+    {path:'/faq',name:'Faq'},
    /* {path:'/login',name:'Login',classname:'end'},
     {path:'/logout',name:'Logout',classname:'end'},*/
   ];
@@ -44,7 +44,7 @@ export const Navbar=({isLoggedIn,setIsLoggedIn,loggedInUser})=> {
             variant="h6"
             noWrap
             component="a"
-           
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -95,13 +95,13 @@ export const Navbar=({isLoggedIn,setIsLoggedIn,loggedInUser})=> {
                 </NavLink>
               ))}
 
-{!isLoggedIn &&    <NavLink to='/lazy/login' className={({ isActive }) => (isActive ? 'active' : '')}>
+{!isLoggedIn &&    <NavLink to='/login' className={({ isActive }) => (isActive ? 'active' : '')}>
                     <MenuItem  onClick={handleCloseNavMenu}>
                       <Typography >Login</Typography>
                     </MenuItem>    
                 </NavLink>
 }
-{isLoggedIn && <NavLink to='/lazy'  className={({ isActive }) => (isActive ? 'active' : '')}>
+{isLoggedIn && <NavLink to='/'  className={({ isActive }) => (isActive ? 'active' : '')}>
                     <MenuItem  onClick={()=>setIsLoggedIn(false)}>
                       <Typography >Logout </Typography>
                       <User loggedInUser={loggedInUser}/>
@@ -145,7 +145,7 @@ export const Navbar=({isLoggedIn,setIsLoggedIn,loggedInUser})=> {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',justifyContent:'flex-end'} }}>
-               {!isLoggedIn && <NavLink to='/lazy/login' className={({ isActive }) => (isActive ? 'active ' : '') }>
+               {!isLoggedIn && <NavLink to='/login' className={({ isActive }) => (isActive ? 'active ' : '') }>
                   <Button
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}

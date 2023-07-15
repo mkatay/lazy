@@ -11,10 +11,13 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, process.cwd());
 
   return {
-    base:"/lazy/",
+   
     plugins: [react()],
     server: {
       port: env.VITE_PORT,
     },
+    build: {
+      chunkSizeWarningLimit: 1600
+  }
   };
 });
