@@ -13,10 +13,6 @@ export default defineConfig(({mode}) => {
   return {
     base:"/lazy/",
     plugins: [react()],
-    build: {
-      outDir: "./wwwroot/app/",
-      sourcemap: true,
-    },
     server: {
       port: env.VITE_PORT,
     },
