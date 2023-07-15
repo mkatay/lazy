@@ -11,6 +11,7 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, process.cwd());
 
   return {
+    base:"/lazy/",
     plugins: [react()],
     build: {
       outDir: "./wwwroot/app/",
