@@ -1,0 +1,329 @@
+ "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.13.7",
+    "@mui/material": "^5.13.7",
+    "axios": "^1.4.0",
+    "framer-motion": "^10.12.18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-lazy-load-image-component": "^1.6.0",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.14.1"
+  },
+  ***********************App1.jsx
+  import './App.css'
+import { Images } from "./components/Images";
+import {QueryClient,QueryClientProvider} from 'react-query'
+
+const queryClient = new QueryClient()
+
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Images />
+    </QueryClientProvider>
+  )
+}
+export default App
+***************************Images.jsx
+import React from "react";
+import { getData } from "../utils";
+import { useQuery } from 'react-query';
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+
+const urlImages = 'https://jsonplaceholder.typicode.com/albums/1/photos'
+export const Images = () => {
+  const { data,status, isLoading, isError } = useQuery(['img', urlImages], getData);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error occurred while fetching images</div>;
+  }
+  status=='success' && console.log(data);
+
+  return (
+    <div className="container-images">
+      {status=='success' && data.map((obj) => (
+        <div key={obj.id}>
+          <h3>{obj.title.slice(1,10)}</h3>
+          <LazyLoadImage
+            className="lazy-img"
+            src={obj.url}
+            alt={obj.title}
+            width={300}
+            height={300}
+            placeholderSrc="placeholder.webp"
+            effect="blur"
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+***************************App.jsx
+import "./App.css";
+import { Images } from "./components/Images";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter,Routes,Route } from "react-router-dom";
+import { Home } from "./components/Home";
+import { Contact } from "./components/Contact";
+import { Navbar } from "./components/Navbar";
+import { Products } from "./components/Products";
+import { Product } from "./components/Product";
+
+const queryClient = new QueryClient();
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <Navbar />
+        <Routes>
+         <Route path="/" element={<Home />}/>
+         <Route path="/images" element={<Images />}/>
+         <Route path="/products" element={<Products />}/>
+         <Route path="products/:id" element={<Product />}/>
+         <Route path="/contact" element={<Contact />}/>
+        </Routes>
+      </QueryClientProvider>
+    </BrowserRouter>
+  );
+};
+export default App;
+*****************************Navbar.jsx
+import React,{useState} from 'react'
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
+
+import { NavLink } from "react-router-dom";
+
+const pages = [
+    {path:'/',name:'Home'}, 
+    {path:'/images',name:'Images'},
+    {path:'/contact',name:'Contact'},
+    {path:'/products',name:'Products'},
+  ];
+
+export const Navbar=()=> {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+ 
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+ 
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  return (
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            LOGO
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((obj) => (
+                <NavLink to={obj.path} key={obj.name}   className={({ isActive }) => (isActive ? 'active' : '')}>
+                    <MenuItem  onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{obj.name}</Typography>
+                    </MenuItem>    
+                </NavLink>
+              ))}
+            </Menu>
+          </Box>
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            LOGO
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((obj) => (
+                  <NavLink to={obj.path} key={obj.name}   className={({ isActive }) => (isActive ? 'active' : '')}>
+              <Button
+                key={obj.name}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {obj.name}
+              </Button>
+              </NavLink>
+            ))}
+          </Box>
+
+       
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+}
+*****************************Products.jsx
+import React from 'react'
+import { useQuery } from 'react-query';
+import {useNavigate} from 'react-router-dom'
+import { getData } from '../utils';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+
+const urlProducts='https://raw.githubusercontent.com/kmagdi/json_images/main/products'
+
+export const Products = () => {
+    const { data,status, isLoading, isError } = useQuery(['products', urlProducts], getData);
+    const navigate=useNavigate()
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+  
+    if (isError) {
+      return <div>Error occurred while fetching images</div>;
+    }
+    status=='success' && console.log(data.products);
+  
+  return (
+    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' ,margin:'5px auto'}}>
+      <List>
+          { status=='success' && data.products.map(obj => 
+           <ListItem disablePadding key={obj.id}>
+            <ListItemButton className='list-btn' onClick={()=>navigate('/products/'+obj.id)}>
+              <ListItemText primary={obj.name} /> 
+            </ListItemButton>
+          </ListItem>
+          )}
+         
+        </List>
+    </Box>
+  )
+}
+***************************Product.jsx
+import React from 'react'
+import { getFilteredData } from '../utils';
+import {useParams} from 'react-router-dom'
+import { useQuery } from 'react-query';
+import {motion} from 'framer-motion'
+import { MediaCard } from './MediaCard';
+
+const urlProducts='https://raw.githubusercontent.com/kmagdi/json_images/main/products'
+
+export const Product=()=> {
+    const params = useParams()
+    console.log('url paraméter:',params)
+    const { data,status, isLoading, isError } = useQuery(['product', urlProducts,params.id], getFilteredData);
+
+    status=='success'  && console.log(data);
+  return (
+    <motion.div initial={{x:'100vw'}} 
+                animate={{x:0}} 
+                transition={{delay:0.2,type:"spring",stiffness:40}}>
+          {status=='success' && <MediaCard {...data[0]}/>}
+    </motion.div>
+  )
+}
+************************MediaCard.jsx
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import {useNavigate} from 'react-router-dom'
+
+export const MediaCard=({imgUrl,name,price})=>{
+    const navigate=useNavigate()
+  return (
+    <Card sx={{ maxWidth: 345,margin:'5px auto' }}>
+      <CardMedia
+        sx={{ height: '400px'}}
+        image={imgUrl}
+        title={name}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Price: ${price}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={()=>navigate('/products')}>go back to products</Button>
+      </CardActions>
+    </Card>
+  );
+}

@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { User } from './User';
 
 import { NavLink } from "react-router-dom";
 
@@ -18,9 +19,12 @@ const pages = [
     {path:'/images',name:'Images'},
     {path:'/contact',name:'Contact'},
     {path:'/products',name:'Products'},
+    {path:'/faq',name:'Faq'},
+   /* {path:'/login',name:'Login',classname:'end'},
+    {path:'/logout',name:'Logout',classname:'end'},*/
   ];
 
-export const Navbar=()=> {
+export const Navbar=({isLoggedIn,setIsLoggedIn,loggedInUser})=> {
   const [anchorElNav, setAnchorElNav] = useState(null);
  
   const handleOpenNavMenu = (event) => {
@@ -86,10 +90,24 @@ export const Navbar=()=> {
               {pages.map((obj) => (
                 <NavLink to={obj.path} key={obj.name}   className={({ isActive }) => (isActive ? 'active' : '')}>
                     <MenuItem  onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{obj.name}</Typography>
+                    <Typography >{obj.name}</Typography>
                     </MenuItem>    
                 </NavLink>
               ))}
+
+{!isLoggedIn &&    <NavLink to='/login' className={({ isActive }) => (isActive ? 'active' : '')}>
+                    <MenuItem  onClick={handleCloseNavMenu}>
+                      <Typography >Login</Typography>
+                    </MenuItem>    
+                </NavLink>
+}
+{isLoggedIn && <NavLink to='/'  className={({ isActive }) => (isActive ? 'active' : '')}>
+                    <MenuItem  onClick={()=>setIsLoggedIn(false)}>
+                      <Typography >Logout </Typography>
+                      <User loggedInUser={loggedInUser}/>
+                    </MenuItem>    
+                </NavLink>
+}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -111,20 +129,36 @@ export const Navbar=()=> {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex'} }}>
             {pages.map((obj) => (
-                  <NavLink to={obj.path} key={obj.name}   className={({ isActive }) => (isActive ? 'active' : '')}>
-              <Button
-                key={obj.name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {obj.name}
-              </Button>
+                <NavLink to={obj.path} key={obj.name} className={({ isActive }) => (isActive ? 'active ' : '') }>
+                  <Button
+                    key={obj.name}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {obj.name}
+                  </Button>
               </NavLink>
             ))}
+            
           </Box>
 
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',justifyContent:'flex-end'} }}>
+               {!isLoggedIn && <NavLink to='/login' className={({ isActive }) => (isActive ? 'active ' : '') }>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    Login
+                  </Button>
+              </NavLink>}
+              {isLoggedIn &&
+                  <Button onClick={()=>setIsLoggedIn(false)}  sx={{ my: 2, color: 'white', display: 'block' }}> 
+                    Logout <User loggedInUser={loggedInUser}/>
+                  </Button>
+              }
+          </Box>
        
         </Toolbar>
       </Container>
